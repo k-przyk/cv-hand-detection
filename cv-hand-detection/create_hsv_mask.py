@@ -54,8 +54,15 @@ class HSVMask(Node):
             cv2.destroyAllWindows()
             hsv_mask_values = json.dumps(self.values.tolist())
 
+            from pathlib import Path, PurePath
+
+            path_to_parent = Path(__file__).parent.parent.absolute()
+            path_to_mask = path_to_parent / "masks" / "hsv_mask_values.json"
+
+            print(path_to_mask)
+
             try:
-                f = open("hsv_mask_values.json", "x")
+                f = open(path_to_mask, "x")
                 f.write(hsv_mask_values)
                 f.close()
 
@@ -66,10 +73,10 @@ class HSVMask(Node):
                 )
                 write = input(input_msg)
                 if write == "y":
-                    import os
 
-                    os.remove("hsv_mask_values.json")
-                    f = open("hsv_mask_values.json", "x")
+                    path_to_mask.unlink()
+                    # os.remove("hsv_mask_values.json")
+                    f = open(path_to_mask, "x")
                     f.write(hsv_mask_values)
                     f.close()
 
